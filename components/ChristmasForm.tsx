@@ -9,7 +9,7 @@ export default function ChristmasForm() {
     'use server';
     const data = Object.fromEntries(formData) as { name: string, description: string, purchaseUrl: string }
     const { name, description, purchaseUrl } = data
-    const { rows } = await sql`
+    await sql`
       INSERT INTO regalos_navidad (destinatario, descripcion, url)
       VALUES (${name}, ${description}, ${purchaseUrl})
     `
