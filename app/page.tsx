@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="min-h-screen relative">
       <Image
-        src="https://images.unsplash.com/photo-1543589077-47d81606c1bf"
+        src="/images/bg.webp"
         alt="Fondo navideño con luces y decoraciones"
         layout="fill"
         objectFit="cover"

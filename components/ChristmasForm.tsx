@@ -1,4 +1,5 @@
-
+import { sql } from "@vercel/postgres";
+import { redirect } from 'next/navigation'
 import { Bell, Gift, ShoppingBag } from 'lucide-react'
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -6,8 +7,13 @@ export default function ChristmasForm() {
 
   const handleSubmit = async (formData: FormData) => {
     'use server';
-    const data = Object.fromEntries(formData)
-    console.log(data)
+    const data = Object.fromEntries(formData) as { name: string, description: string, purchaseUrl: string }
+    const { name, description, purchaseUrl } = data
+    const { rows } = await sql`
+      INSERT INTO regalos_navidad (destinatario, descripcion, url)
+      VALUES (${name}, ${description}, ${purchaseUrl})
+    `
+    redirect('/thanks');
   }
 
   return (
