@@ -9,10 +9,13 @@ export default function ChristmasForm() {
     'use server';
     const data = Object.fromEntries(formData) as { name: string, description: string, purchaseUrl: string }
     const { name, description, purchaseUrl } = data
-    await sql`
+    const { rows } = await sql`
       INSERT INTO regalos_navidad (destinatario, descripcion, url)
       VALUES (${name}, ${description}, ${purchaseUrl})
     `
+    if (!rows) {
+      throw new Error('No se pudo enviar el regalo')
+    }
     redirect('/thanks');
   }
 
@@ -52,10 +55,8 @@ export default function ChristmasForm() {
           URL de Compra
         </label>
         <input
-          type="url"
           id="purchaseUrl"
           name="purchaseUrl"
-          required
           className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           placeholder="https://ejemplo.com/regalo-navideño"
         />
